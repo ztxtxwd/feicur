@@ -128,10 +128,64 @@ spring.ai.mcp.client.stdio.servers-configuration=classpath:/mcp-servers-config.j
    java -Dai.user.input='查询飞书文档信息' -jar target/mcp-starter-default-client-0.0.1-SNAPSHOT.jar
    ```
 
+## Native Image 支持
+
+Feicur 支持使用 GraalVM Native Image 技术构建原生可执行文件，这可以显著提高启动速度并减少内存占用。
+
+### 使用 Buildpacks 构建 Native Image 容器
+
+使用 Spring Boot 的 Buildpacks 支持可以生成包含原生可执行文件的轻量级容器：
+
+```bash
+# 使用 Maven
+./mvnw -Pnative spring-boot:build-image
+
+# 运行容器
+docker run --rm -p 8080:8080 \
+  -e FEICUR_LLM_API_KEY=your-openai-api-key \
+  -e FEICUR_LLM_BASE_URL=https://api.openai.com/v1 \
+  -e FEICUR_LLM_MODEL=gpt-4o \
+  docker.io/library/mcp-starter-default-client:0.0.1-SNAPSHOT
+```
+
+### 使用 Native Build Tools 直接构建 Native 可执行文件
+
+#### 前提条件
+
+- GraalVM 或 Liberica Native Image Kit (NIK) 22.3+
+- 对于 Linux/macOS，推荐使用 SDKMAN! 安装：
+  ```bash
+  sdk install java 22.3.r17-nik
+  sdk use java 22.3.r17-nik
+  ```
+
+#### 构建和运行
+
+```bash
+# 使用 Maven 构建 Native 可执行文件
+./mvnw -Pnative native:compile
+
+# 运行 Native 可执行文件
+FEICUR_LLM_API_KEY=your-openai-api-key \
+FEICUR_LLM_BASE_URL=https://api.openai.com/v1 \
+FEICUR_LLM_MODEL=gpt-4o \
+./target/mcp-starter-default-client
+```
+
+### 性能优势
+
+Native Image 相比传统 JVM 应用程序具有以下优势：
+
+- 显著更快的启动时间（通常为毫秒级而非秒级）
+- 更低的内存占用
+- 更小的部署体积
+- 无需安装 JVM 即可运行
+
 ## 其他资源
 
 - [Spring AI 文档](https://docs.spring.io/spring-ai/reference/)
 - [MCP 客户端启动器](https://docs.spring.io/spring-ai/reference/api/mcp/mcp-client-boot-starter-docs.html)
 - [模型上下文协议规范](https://modelcontextprotocol.github.io/specification/)
 - [Spring Boot 文档](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+- [Spring Boot GraalVM Native Image 支持](https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html)
 - [飞书开放平台文档](https://open.feishu.cn/document/home/index)
