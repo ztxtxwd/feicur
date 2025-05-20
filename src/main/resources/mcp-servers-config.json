@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "feishu": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://localhost:8788/sse"
+      ],
+      "env": {
+      }
+    }
+  }
+}
