@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/ztxtxwd/feicur.git",
+  "workflow": "GitHub Flow",
+  "issueTemplate": {
+    "path": ".github/ISSUE_TEMPLATE",
+    "templates": [
+      "bug_report.md",
+      "feature_request.md",
+      "custom.md"
+    ]
+  },
+  "branchNaming": {
+    "pattern": "feature/|bugfix/|hotfix/|release/|support/",
+    "description": "Branch names should start with feature/, bugfix/, hotfix/, release/, or support/ followed by a descriptive name"
+  },
+  "commitMessage": {
+    "pattern": "^(feat|fix|docs|style|refactor|test|chore)(\\(.*\\))?: .*",
+    "description": "Commit messages should follow conventional commits format"
+  },
+  "pullRequest": {
+    "template": "Please provide a detailed description of your changes.\n\n## Changes\n\n- \n\n## Related Issues\n\n- Closes #\n\n## Checklist\n\n- [ ] Tests added/updated\n- [ ] Documentation updated\n- [ ] Code follows project style guidelines"
+  }
+}
