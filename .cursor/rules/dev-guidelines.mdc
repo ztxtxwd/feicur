@@ -10,12 +10,14 @@ alwaysApply: false
 - Workflow: GitHub Flow
 
 ## 开发流程
+0. 创建 Issue
 1. 从 `main` 创建功能分支，使用描述性名称 (如 `feature/add-new-component`)
 2. 在分支上进行代码修改
 3. 向 `main` 提交 Pull Request
 4. 通过 Code Review 并获得批准
 5. 合并 Pull Request
 6. 删除功能分支
+7. 关闭 Issue
 
 ## Issue 管理
 - 使用 `.github/ISSUE_TEMPLATE` 中的模板创建 Issue
