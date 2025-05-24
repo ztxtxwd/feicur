@@ -58,15 +58,15 @@ public class CommentEventListener {
     }
     
     /**
-     * 事件到指令的映射逻辑
+     * 事件到指令的映射逻辑（新版）
      */
     private UserCommand mapEventToCommand(CommentChangeEvent event) {
         return switch (event.getEventType()) {
-            case NEW -> new UserCommand("ADD_REQUIREMENT", event.getComment());
-            case EDIT -> new UserCommand("UPDATE_REQUIREMENT", event.getComment());
-            case DELETE -> new UserCommand("REMOVE_REQUIREMENT", event.getComment());
-            case RESOLVE -> new UserCommand("RESOLVE_REQUIREMENT", event.getComment());
-            case UNRESOLVE -> new UserCommand("REOPEN_REQUIREMENT", event.getComment());
+            case NEW -> new UserCommand("EDIT", event.getComment());
+            case EDIT -> new UserCommand("REJECT_AND_EDIT", event.getComment());
+            case DELETE -> new UserCommand("REJECT_EDIT_RESULT", event.getComment());
+            case RESOLVE -> new UserCommand("ACCEPT_EDIT_RESULT", event.getComment());
+            // case UNRESOLVE -> new UserCommand("REOPEN_REQUIREMENT", event.getComment());
             default -> {
                 log.warn("Unknown event type: {}", event.getEventType());
                 yield null;
