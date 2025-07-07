@@ -40,7 +40,8 @@ public class Application {
 		return args -> {
 			log.info("=== Feicur 文档监听助手 v0.2 启动 ===");
 			
-			String docToken = extractDocTokenFromArgs(args);
+			// String docToken = extractDocTokenFromArgs(args);
+			String docToken = "TL7ndvppSov7JhxeZuXcJFTIn2g";
 			
 			if (docToken != null && !docToken.trim().isEmpty()) {
 				// CLI模式：有token参数，直接启动监听
@@ -99,6 +100,7 @@ public class Application {
 		log.info("");
 		log.info("⏸️  按 Ctrl+C 停止服务");
 		
+		// 启动文档监听
 		// Web模式下不需要额外的等待，Spring Boot会保持应用运行
 		setupShutdownHook();
 	}

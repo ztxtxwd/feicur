@@ -114,8 +114,24 @@ public class DocWatcher {
         try {
             log.debug("Polling comments for document: {}", docToken);
             
+            // 先检查MCP连接健康状态
+            // if (!feishuApi.checkMcpConnectionHealth()) {
+            //     log.debug("MCP连接不健康，跳过本次评论检测，token: {}", docToken);
+            //     // 增加空闲计数，但不更新快照
+            //     idleCount.incrementAndGet();
+            //     return;
+            // }
+            
             // 获取当前评论
             List<RawComment> currentComments = feishuApi.listComments(docToken);
+            
+            // 检查是否因为连接问题返回了null
+            if (currentComments == null) {
+                log.warn("获取评论返回null，可能是MCP连接问题，跳过本次事件检测，token: {}", docToken);
+                // 增加空闲计数，但不更新快照，避免误报删除事件
+                idleCount.incrementAndGet();
+                return;
+            }
             
             // 创建新快照
             CommentSnapshot newSnapshot = CommentSnapshot.fromComments(docToken, currentComments);
@@ -147,7 +163,7 @@ public class DocWatcher {
                 }
             }
             
-            // 更新快照
+            // 更新快照（只在成功获取到评论数据时）
             lastSnapshot.set(newSnapshot);
             
         } catch (Exception e) {

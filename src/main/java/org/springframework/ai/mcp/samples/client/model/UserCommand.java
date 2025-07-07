@@ -54,6 +54,11 @@ public class UserCommand {
     private String docToken;
     
     /**
+     * 评论ID
+     */
+    private String commentId;
+    
+    /**
      * 构造函数，自动设置时间戳
      */
     public UserCommand(String commandType, RawComment sourceComment) {
@@ -62,7 +67,24 @@ public class UserCommand {
         this.timestamp = Instant.now();
         if (sourceComment != null) {
             this.content = sourceComment.getContent();
+            this.commentId = sourceComment.getCommentId();
         }
+    }
+    
+    /**
+     * 构造函数，包含docToken
+     */
+    public UserCommand(String commandType, RawComment sourceComment, String docToken) {
+        this(commandType, sourceComment);
+        this.docToken = docToken;
+    }
+    
+    /**
+     * 构造函数，包含docToken和commentId
+     */
+    public UserCommand(String commandType, RawComment sourceComment, String docToken, String commentId) {
+        this(commandType, sourceComment, docToken);
+        this.commentId = commentId;
     }
     
     /**
